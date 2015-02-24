@@ -1,6 +1,6 @@
 #include "SnakeGame.h"
 
-SnakeGame *SnakeGame::static_this = new SnakeGame();
+SnakeGame *SnakeGame::static_this;
 
 SnakeGame::SnakeGame(size_t size_x, size_t size_y, size_t width, size_t height, size_t snake_size,
 	size_t amount_of_good_item, size_t  amount_of_bad_item){
