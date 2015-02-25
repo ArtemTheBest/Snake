@@ -33,11 +33,15 @@ void Menu::draw()const{
 
 	glColor3f(0, 0, 0);
 
-	int y_position = 20;
-	for (std::vector<std::string>::const_iterator itr = std::begin(this->arr);
-		itr != std::end(this->arr); itr++, y_position += 30)
-		this->draw_string(*itr, 20, y_position);
+	int y_position = this->height - 40;
 
+	for (auto itr = std::begin(this->arr); itr != std::end(this->arr); itr++,y_position-=30){
+		std::string temp = (itr - std::begin(this->arr) == this->cur_position ?
+			"> " + *itr + " <" : "  " + *itr + "  ");
+		this->draw_string(temp, 20, y_position);
+	}
+		
+	
 	glutSwapBuffers();
 }
 

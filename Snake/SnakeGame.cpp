@@ -7,6 +7,10 @@ SnakeGame::SnakeGame(size_t size_x, size_t size_y, size_t width, size_t height, 
 	this->field = Field(size_x, size_y, width, height);
 	this->snake = Snake(snake_size,size_x,size_y);
 	this->static_this = this;
+	
+	std::vector<std::string> temp = {"New Game","Options","Exit"};
+	this->general_menu = Menu(temp,width,height);
+
 
 	for (size_t i = 0; i < amount_of_good_item; i++)
 		this->items.push_back(this->generate_good_item());
@@ -22,12 +26,13 @@ void SnakeGame::start_game(int argc, char **argv){
 	glutInitWindowPosition(100, 100);
 	glutCreateWindow("<= Snake =>");
 
-	this->initialize_gl();
-	glutDisplayFunc(&SnakeGame::draw);
-	glutReshapeFunc(&SnakeGame::reshape);
-	glutKeyboardFunc(&SnakeGame::keyboard_for_game);
-	glutSpecialFunc(&SnakeGame::special_keyboard_for_game);
-	glutTimerFunc(30, &SnakeGame::timer, 0);
+	this->general_menu.initialize_gl();
+	this->general_menu.set_static_this(&(this->general_menu));
+	glutDisplayFunc(&Menu::draw_callback);
+	glutReshapeFunc(&Menu::reshape_callback);
+	glutKeyboardFunc(&SnakeGame::keyboard_for_general_menu);
+	glutSpecialFunc(&SnakeGame::special_keyboard_for_general_menu);
+	glutTimerFunc(30, &Menu::timer_callback, 0);
 	glutMainLoop();
 }
 
@@ -123,6 +128,25 @@ void SnakeGame::special_keyboard_gl_for_game(int key, int x, int y){
 	}
 }
 
+void SnakeGame::keyboard_gl_for_general_menu(unsigned char key, int x, int y){
+	switch (key){
+	case 13:
+		this->end_game();
+		break;
+	}
+}
+
+void SnakeGame::special_keyboard_gl_for_general_menu(int key, int x, int y){
+	switch (key){
+	case GLUT_KEY_UP:
+		this->general_menu.move_up();
+		break;
+	case GLUT_KEY_DOWN:
+		this->general_menu.move_down();
+		break;
+	}
+}
+
 void SnakeGame::timer_gl(int = 0){
 	this->snake.move();
 	this->draw_gl();
@@ -157,6 +181,14 @@ void SnakeGame::keyboard_for_game(unsigned char key, int x, int y){
 
 void SnakeGame::special_keyboard_for_game(int key, int x, int y){
 	static_this->special_keyboard_gl_for_game(key, x, y);
+}
+
+void SnakeGame::keyboard_for_general_menu(unsigned char key, int x, int y){
+	static_this->keyboard_gl_for_general_menu(key, x, y);
+}
+
+void SnakeGame::special_keyboard_for_general_menu(int key, int x, int y){
+	static_this->special_keyboard_gl_for_general_menu(key, x, y);
 }
 
 void SnakeGame::timer(int = 0){

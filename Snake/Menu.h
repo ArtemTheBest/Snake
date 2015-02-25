@@ -6,6 +6,7 @@ class Menu{
 public:
 	Menu():cur_position(0),width(800),height(640){}
 	Menu(std::vector<std::string> arr) :arr(arr), cur_position(0), width(800), height(640){}
+
 	Menu(std::vector<std::string> arr, int width, int height) :arr(arr), cur_position(0), 
 		width(width), height(height){}
 

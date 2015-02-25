@@ -23,6 +23,7 @@ private:
 	std::vector<Item*> items;
 	static SnakeGame *static_this;
 	std::map<Point, bool> items_coord;
+	Menu general_menu;
 
 	void check_on_food();
 	Item* generate_good_item();
@@ -32,6 +33,8 @@ private:
 	void reshape_gl(int width, int height);
 	void keyboard_gl_for_game(unsigned char key, int x, int y);
 	void special_keyboard_gl_for_game(int key, int x, int y);
+	void keyboard_gl_for_general_menu(unsigned char key, int x, int y);
+	void special_keyboard_gl_for_general_menu(int key, int x, int y);
 	void timer_gl(int);
 	void draw_gl();
 	void setupCur();
@@ -40,5 +43,7 @@ private:
 	static void reshape(int width, int height);
 	static void keyboard_for_game(unsigned char key, int x, int y);
 	static void special_keyboard_for_game(int key, int x, int y);
+	static void keyboard_for_general_menu(unsigned char key, int x, int y);
+	static void special_keyboard_for_general_menu(int key, int x, int y);
 	static void timer(int);
 };
