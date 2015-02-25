@@ -25,8 +25,8 @@ void SnakeGame::start_game(int argc, char **argv){
 	this->initialize_gl();
 	glutDisplayFunc(&SnakeGame::draw);
 	glutReshapeFunc(&SnakeGame::reshape);
-	glutKeyboardFunc(&SnakeGame::keyboard);
-	glutSpecialFunc(&SnakeGame::special_keyboard);
+	glutKeyboardFunc(&SnakeGame::keyboard_for_game);
+	glutSpecialFunc(&SnakeGame::special_keyboard_for_game);
 	glutTimerFunc(30, &SnakeGame::timer, 0);
 	glutMainLoop();
 }
@@ -98,7 +98,7 @@ void SnakeGame::reshape_gl(int width, int height){
 	glLoadIdentity();
 }
 
-void SnakeGame::keyboard_gl(unsigned char key, int x, int y){
+void SnakeGame::keyboard_gl_for_game(unsigned char key, int x, int y){
 	switch (key){
 	case 'e':
 		this->end_game();
@@ -106,7 +106,7 @@ void SnakeGame::keyboard_gl(unsigned char key, int x, int y){
 	}
 }
 
-void SnakeGame::special_keyboard_gl(int key, int x, int y){
+void SnakeGame::special_keyboard_gl_for_game(int key, int x, int y){
 	switch (key){
 	case GLUT_KEY_RIGHT:
 		this->snake.go_right();
@@ -151,12 +151,12 @@ void SnakeGame::reshape(int width, int height){
 	static_this->reshape_gl(width, height);
 }
 
-void SnakeGame::keyboard(unsigned char key, int x, int y){
-	static_this->keyboard_gl(key, x, y);
+void SnakeGame::keyboard_for_game(unsigned char key, int x, int y){
+	static_this->keyboard_gl_for_game(key, x, y);
 }
 
-void SnakeGame::special_keyboard(int key, int x, int y){
-	static_this->special_keyboard_gl(key, x, y);
+void SnakeGame::special_keyboard_for_game(int key, int x, int y){
+	static_this->special_keyboard_gl_for_game(key, x, y);
 }
 
 void SnakeGame::timer(int = 0){

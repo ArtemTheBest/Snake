@@ -4,6 +4,7 @@
 #include "BadItem.h"
 #include "Item.h"
 #include "Field.h"
+#include "Menu.h"
 
 #include <vector>
 #include <glut.h>
@@ -11,7 +12,6 @@
 
 class SnakeGame{
 public:
-	SnakeGame(){}
 	SnakeGame(size_t size_x, size_t size_y, size_t width, size_t height, size_t snake_size,
 		size_t amount_of_good_item, size_t  amount_of_bad_item);
 
@@ -30,15 +30,15 @@ private:
 
 	void initialize_gl();
 	void reshape_gl(int width, int height);
-	void keyboard_gl(unsigned char key, int x, int y);
-	void special_keyboard_gl(int key, int x, int y);
+	void keyboard_gl_for_game(unsigned char key, int x, int y);
+	void special_keyboard_gl_for_game(int key, int x, int y);
 	void timer_gl(int);
 	void draw_gl();
 	void setupCur();
 
 	static void draw();
 	static void reshape(int width, int height);
-	static void keyboard(unsigned char key, int x, int y);
-	static void special_keyboard(int key, int x, int y);
+	static void keyboard_for_game(unsigned char key, int x, int y);
+	static void special_keyboard_for_game(int key, int x, int y);
 	static void timer(int);
 };

@@ -81,6 +81,7 @@
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="GoodItem.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="Snake.cpp" />
     <ClCompile Include="SnakeGame.cpp" />
@@ -90,6 +91,7 @@
     <ClInclude Include="Field.h" />
     <ClInclude Include="GoodItem.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="Snake.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="SnakeGame.h" />
