@@ -50,7 +50,7 @@ void Snake::reduce(size_t size){
 	if (size >= this->length())
 		return;
 	
-	this->blocks_position.resize(this->length() - size);
+	this->blocks_position.resize(size);
 }
 
 void Snake::go_up(){
