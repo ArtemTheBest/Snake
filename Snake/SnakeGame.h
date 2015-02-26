@@ -21,29 +21,50 @@ private:
 	Field field;
 	Snake snake;
 	std::vector<Item*> items;
-	static SnakeGame *static_this;
 	std::map<Point, bool> items_coord;
 	Menu general_menu;
+
+	static SnakeGame *static_this;
 
 	void check_on_food();
 	Item* generate_good_item();
 	Item* generate_bad_item();
+	
+	void use_general_menu();
+	void use_game();
 
-	void initialize_gl();
-	void reshape_gl(int width, int height);
-	void keyboard_gl_for_game(unsigned char key, int x, int y);
-	void special_keyboard_gl_for_game(int key, int x, int y);
-	void keyboard_gl_for_general_menu(unsigned char key, int x, int y);
-	void special_keyboard_gl_for_general_menu(int key, int x, int y);
-	void timer_gl(int);
-	void draw_gl();
-	void setupCur();
+	void initialize_snake();
+	void reshape_snake(int width, int height);
+	void keyboard_snake(unsigned char key, int x, int y);
+	void keyboard_general_menu_gl(unsigned char key, int x, int y);
+	void special_keyboard_snake(int key, int x, int y);
+	void timer_snake(int);
+	void draw_snake();
+	
+	static void(*draw_func)();
+	static void(*init_func)();
+	static void(*keyboard_func)(unsigned char, int, int);
+	static void(*special_keyboard_func)(int, int, int);
+	static void(*reshape_func)(int, int);
+	static void(*timer_func)(int);
 
+	static void draw_game();
+	static void draw_general_menu();
+	static void init_game();
+	static void init_general_menu();
+	static void keyboard_game(unsigned char key, int x, int y);
+	static void keyboard_general_menu(unsigned char key, int x, int y);
+	static void special_keyboard_game(int key, int x, int y);
+	static void special_keyboard_general_menu(int key, int x, int y);
+	static void reshape_game(int width, int height);
+	static void reshape_general_menu(int width, int height);
+	static void timer_game(int);
+	static void timer_general_menu(int);
+
+	static void initialize_gl();
 	static void draw();
 	static void reshape(int width, int height);
-	static void keyboard_for_game(unsigned char key, int x, int y);
-	static void special_keyboard_for_game(int key, int x, int y);
-	static void keyboard_for_general_menu(unsigned char key, int x, int y);
-	static void special_keyboard_for_general_menu(int key, int x, int y);
+	static void keyboard(unsigned char key, int x, int y);
+	static void special_keyboard(int key, int x, int y);
 	static void timer(int);
 };

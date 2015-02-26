@@ -3,8 +3,6 @@
 #include <string>
 #include <glut.h>
 
-Menu *Menu::static_this;
-
 void Menu::initialize_gl(){
 	glEnable(GL_TEXTURE_2D);
 	glClearColor(0.627, 0.878, 0.501,1.0);
@@ -16,21 +14,18 @@ void Menu::initialize_gl(){
 	glLoadIdentity();
 }
 
-void Menu::draw_callback(){
-	static_this->draw();
-}
-
-void Menu::reshape_callback(int width, int height){
-	static_this->reshape(width, height);
-}
-
-void Menu::timer_callback(int = 0){
-	static_this-> timer(0);
+void Menu::special_keyboard(int key, int x, int y){
+	switch (key){
+	case GLUT_KEY_UP:
+		this->move_up();
+		break;
+	case GLUT_KEY_DOWN:
+		this->move_down();
+		break;
+	}
 }
 
 void Menu::draw()const{
-	glClear(GL_COLOR_BUFFER_BIT);
-
 	glColor3f(0, 0, 0);
 
 	int y_position = this->height - 40;
@@ -40,9 +35,6 @@ void Menu::draw()const{
 			"> " + *itr + " <" : "  " + *itr + "  ");
 		this->draw_string(temp, 20, y_position);
 	}
-		
-	
-	glutSwapBuffers();
 }
 
 void Menu::reshape(int width, int height){
@@ -59,8 +51,6 @@ void Menu::reshape(int width, int height){
 }
 
 void  Menu::timer(int = 0){
-	this->draw();
-	glutTimerFunc(30, &Menu::timer_callback, 0);
 }
 
 void Menu::move_down(){
@@ -82,8 +72,4 @@ void Menu::draw_string(std::string str, int x_coordinate, int y_coordinate)const
 
 	while (*text) 
 		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, *text++);
-}
-
-void Menu::set_static_this(Menu *staticThis){
-	this->static_this = staticThis;
 }

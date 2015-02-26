@@ -13,10 +13,11 @@ public:
 	void move_down();
 	void move_up();
 	
+	void draw()const;
+	void reshape(int width, int height);
+	void timer(int);
 	void initialize_gl();
-	static void draw_callback();
-	static void reshape_callback(int width, int height);
-	static void timer_callback(int);
+	void special_keyboard(int key, int x, int y);
 
 	size_t get_cur_position()const;
 
@@ -26,11 +27,6 @@ private:
 	size_t cur_position;
 	int width;
 	int height;
-
-	static Menu *static_this;
-
-	void draw()const;
-	void reshape(int width, int height);
-	void timer(int);
+	
 	void draw_string(std::string str, int x_coordinate, int y_coordinate)const;
 };
