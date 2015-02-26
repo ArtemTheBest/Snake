@@ -5,6 +5,8 @@ const int ESCAPE_KEY = 27;
 
 SnakeGame *SnakeGame::static_this;
 
+Menu *SnakeGame::static_menu;
+
 void(*SnakeGame::draw_func)();
 
 void(*SnakeGame::init_func)();
@@ -22,10 +24,14 @@ SnakeGame::SnakeGame(size_t size_x, size_t size_y, size_t width, size_t height, 
 	this->field = Field(size_x, size_y, width, height);
 	this->snake = Snake(snake_size,size_x,size_y);
 	this->static_this = this;
+	this->static_menu = &(this->main_menu);
 	this->use_main_menu();
 
 	std::vector<std::string> temp = {"New Game","Options","Exit"};
 	this->main_menu = Menu(temp, width, height);
+
+	temp = {"Resume","Exit"};
+	this->pause_menu = Menu(temp, width, height);
 
 	for (size_t i = 0; i < amount_of_good_item; i++)
 		this->items.push_back(this->generate_good_item());
@@ -93,9 +99,17 @@ Item* SnakeGame::generate_good_item(){
 	return new GoodItem(randPoint);
 }
 
+void SnakeGame::menu_options(int cur){
+	if (this->static_menu == &(this->main_menu))
+		this->main_menu_options(cur);
+	else if (this->static_menu == &(this->pause_menu))
+		this->pause_menu_options(cur);
+}
+
 void SnakeGame::main_menu_options(int cur){
 	switch (cur){
 	case 1:
+		this->static_menu = &(this->pause_menu);
 		this->use_game();
 		break;
 	case 2:
@@ -107,14 +121,26 @@ void SnakeGame::main_menu_options(int cur){
 	}
 }
 
+void SnakeGame::pause_menu_options(int cur){
+	switch (cur){
+	case 1:
+		this->static_menu = &(this->pause_menu);
+		this->use_game();
+		break;
+	case 2:
+		this->end_game();
+		break;
+	}
+}
+
 void SnakeGame::use_main_menu(){
-	this->init_func = &SnakeGame::init_main_menu;
+	this->init_func = &SnakeGame::init_menu;
 	this->init_func();
-	this->draw_func = &SnakeGame::draw_main_menu;
-	this->keyboard_func = &SnakeGame::keyboard_main_menu;
-	this->special_keyboard_func = &SnakeGame::special_keyboard_main_menu;
-	this->reshape_func = &SnakeGame::reshape_main_menu;
-	this->timer_func = &SnakeGame::timer_main_menu;
+	this->draw_func = &SnakeGame::draw_menu;
+	this->keyboard_func = &SnakeGame::keyboard_menu;
+	this->special_keyboard_func = &SnakeGame::special_keyboard_menu;
+	this->reshape_func = &SnakeGame::reshape_menu;
+	this->timer_func = &SnakeGame::timer_menu;
 }
 
 void SnakeGame::use_game(){
@@ -165,7 +191,7 @@ void SnakeGame::keyboard_snake(unsigned char key, int x, int y){
 void SnakeGame::keyboard_main_menu_gl(unsigned char key, int x, int y){
 	switch (key){
 	case ENTER_KEY:
-		this->main_menu_options(static_this->main_menu.get_cur_position());
+		this->menu_options(static_menu->get_cur_position());
 		break;
 	}
 }
@@ -205,8 +231,8 @@ void SnakeGame::draw_game(){
 	static_this->draw_snake();
 }
 
-void SnakeGame::draw_main_menu(){
-	static_this->main_menu.draw();
+void SnakeGame::draw_menu(){
+	static_menu->draw();
 }
 
 void SnakeGame::draw(){
@@ -221,15 +247,15 @@ void SnakeGame::init_game(){
 	static_this->initialize_snake();
 }
 
-void SnakeGame::init_main_menu(){
-	static_this->main_menu.initialize_gl();
+void SnakeGame::init_menu(){
+	static_menu->initialize_gl();
 }
 
 void SnakeGame::keyboard_game(unsigned char key, int x, int y){
 	static_this->keyboard_snake(key,x,y);
 }
 
-void SnakeGame::keyboard_main_menu(unsigned char key, int x, int y){
+void SnakeGame::keyboard_menu(unsigned char key, int x, int y){
 	static_this->keyboard_main_menu_gl(key, x, y);
 }
 
@@ -237,24 +263,24 @@ void SnakeGame::special_keyboard_game(int key, int x, int y){
 	static_this->special_keyboard_snake(key, x, y);
 }
 
-void SnakeGame::special_keyboard_main_menu(int key, int x, int y){
-	static_this->main_menu.special_keyboard(key, x, y);
+void SnakeGame::special_keyboard_menu(int key, int x, int y){
+	static_menu->special_keyboard(key, x, y);
 }
 
 void SnakeGame::reshape_game(int width, int height){
 	static_this->reshape_snake(width,height);
 }
 
-void SnakeGame::reshape_main_menu(int width, int height){
-	static_this->main_menu.reshape(width, height);
+void SnakeGame::reshape_menu(int width, int height){
+	static_menu->reshape(width, height);
 }
 
 void SnakeGame::timer_game(int = 0){
 	static_this->timer_snake(0);
 }
 
-void SnakeGame::timer_main_menu(int = 0){
-	static_this->main_menu.timer(0);
+void SnakeGame::timer_menu(int = 0){
+	static_menu->timer(0);
 }
 
 void SnakeGame::reshape(int width, int height){
